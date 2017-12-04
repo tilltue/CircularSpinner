@@ -96,13 +96,13 @@ open class CircularSpinner: UIView {
             appearanceProgressLayer()
         }
     }
-    open static var trackBgColor = UIColor(colorLiteralRed: 238.0/255, green: 238.0/255, blue: 238.0/255, alpha: 1)
+    open static var trackBgColor = UIColor(red: 238.0/255, green: 238.0/255, blue: 238.0/255, alpha: 1)
     private var bgColor = trackBgColor {
         didSet {
             appearanceBackgroundLayer()
         }
     }
-    open static var trackPgColor = UIColor(colorLiteralRed: 47.0/255, green: 177.0/255, blue: 254.0/255, alpha: 1)
+    open static var trackPgColor = UIColor(red: 47.0/255, green: 177.0/255, blue: 254.0/255, alpha: 1)
     private var pgColor = trackPgColor {
         didSet {
             appearanceProgressLayer()
@@ -133,7 +133,7 @@ open class CircularSpinner: UIView {
     }
     
     fileprivate func loadViewFromNib() -> UIView {
-        let bundle = Bundle(for: type(of: self))
+        let bundle = Bundle(for: CircularSpinner.self)
         let nib = UINib(nibName: nibName, bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
         return view
@@ -227,7 +227,7 @@ open class CircularSpinner: UIView {
         updateFrame()
     }
     
-    public func updateFrame() {
+    @objc public func updateFrame() {
         if let containerView = CircularSpinner.containerView() {
             CircularSpinner.sharedInstance.frame = containerView.bounds
         }
@@ -353,7 +353,7 @@ extension CircularSpinner {
             
             UIView.animate(withDuration: 0.33, delay: 0, options: .curveEaseOut, animations: {
                 spinner.alpha = 1
-                }, completion: nil)
+            }, completion: nil)
         }
         
         NotificationCenter.default.addObserver(spinner, selector: #selector(updateFrame), name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation, object: nil)
@@ -372,11 +372,12 @@ extension CircularSpinner {
             
             UIView.animate(withDuration: 0.33, delay: 0, options: .curveEaseOut, animations: {
                 spinner.alpha = 0
-                }, completion: { _ in
-                    spinner.alpha = 1
-                    spinner.removeFromSuperview()
-                    completion?()
+            }, completion: { _ in
+                spinner.alpha = 1
+                spinner.removeFromSuperview()
+                completion?()
             })
         })
     }
 }
+
